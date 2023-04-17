@@ -26,14 +26,16 @@ function extractNum(tgt) {
 }
 
 for (let i = 0; i < assignments.length; i++) {
-  const element = assignments.item(i);
-  const actual = extractNum(element.querySelector('.original_score').innerHTML);
-  const max = extractNum(element.querySelector('.tooltip').children[1].innerHTML);
-  const pct = (actual / max * 100).toFixed(2);
+  try {
+    const element = assignments.item(i);
+    const actual = extractNum(element.querySelector('.original_score').innerHTML);
+    const max = extractNum(element.querySelector('.tooltip').children[1].innerHTML);
+    const pct = (actual / max * 100).toFixed(2);
 
-  for (const [grade, range] of Object.entries(conversions)) {
-    if (pct >= range[0] && pct <= range[1]) {
-      element.innerHTML += `<td>${pct}%<br>${grade}</td>`;
+    for (const [grade, range] of Object.entries(conversions)) {
+      if (pct >= range[0] && pct <= range[1]) {
+        element.innerHTML += `<td>${pct}%<br>${grade}</td>`;
+      }
     }
-  }
+  } finally {}
 }
