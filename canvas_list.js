@@ -1,4 +1,5 @@
 const assignments = document.getElementById('grades_summary').querySelectorAll('.student_assignment')
+const groups = document.querySelectorAll('.hard_coded');
 const conversions = {
   'A+': [97, Infinity],
   'A': [93, 96],
@@ -33,9 +34,29 @@ for (let i = 0; i < assignments.length; i++) {
     const pct = (actual / max * 100).toFixed(2);
 
     for (const [grade, range] of Object.entries(conversions)) {
-      if (pct >= range[0] && pct <= range[1]) {
+      if (Math.round(pct) >= range[0] && Math.round(pct) <= range[1]) {
         element.innerHTML += `<td>${pct}%<br>${grade}</td>`;
       }
     }
-  } finally {}
+  } catch (e) {
+    console.log("Fiddlesticks")
+  }
+}
+
+for (let i = 0; i < groups.length; i++) {
+  try {
+    const element = groups.item(i);
+    const tgt = element.querySelector('.grade');
+    const pct = extractNum(tgt.innerHTML);
+
+    for (const [grade, range] of Object.entries(conversions)) {
+      console.log(grade, range, Math.round(pct) >= range[0] && Math.round(pct) <= range[1])
+      if (Math.round(pct) >= range[0] && Math.round(pct) <= range[1]) {
+        console.log(grade);
+        tgt.innerHTML = `${pct}% (${grade})`
+      }
+    }
+  } catch (e) { 
+    console.log(e);
+  }
 }
